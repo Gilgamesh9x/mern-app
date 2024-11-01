@@ -2,7 +2,8 @@ import "express-async-errors";
 import User from "../models/userModel.js";
 import Job from "../models/jobModel.js";
 import { v2 as cloudinary } from "cloudinary";
-import { promises as fs } from "fs";
+import { formatImage } from "../middleware/multerMiddleware.js";
+import { format } from "morgan";
 
 export async function getCurrentUser(req, res) {
   const { userId } = req.user;
@@ -16,10 +17,9 @@ export async function updateUser(req, res) {
   /* console.log(req.file); */
   // We only wanna upload the image to cloudinary if the user sends an img
   if (req.file) {
+    const file = formatImage(req.file);
     // Upload the image to Cloudinary
-    const uploadResult = await cloudinary.uploader.upload(req.file.path);
-    // delete the image from our server (since we don't need it anymore)
-    await fs.unlink(req.file.path);
+    const uploadResult = await cloudinary.uploader.upload(file);
     // these are the 2 properties we added in the Schema
     req.body.avatar = uploadResult.secure_url;
     req.body.avatarPublicId = uploadResult.public_id;

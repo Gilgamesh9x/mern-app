@@ -1,18 +1,17 @@
 import multer from "multer";
+import DataParser from "datauri/parser.js";
+import path from "path";
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // set the directory where uploaded files will be stored
-    // why null as first argument?
-    // In Node.js, the convention in callback functions is to have the first argument as an error (if any occurred) and the second argument as the result or value to be returned if everything went well.
-    cb(null, "public/uploads");
-  },
-  filename: (req, file, cb) => {
-    const fileName = file.originalname;
-    // set the name of the uploaded file
-    cb(null, fileName);
-  },
-});
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
+
+const parser = new DataParser();
+
+// we wanna format the image to be able to send it to Cloudinary (because it's a buffer now)
+export function formatImage(file) {
+  /* console.log(file); */
+  const fileExtension = path.extname(file.originalname).toString();
+  return parser.format(fileExtension, file.buffer).content;
+}
 
 export default upload;
