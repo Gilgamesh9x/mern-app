@@ -44,7 +44,7 @@ cloudinary.config({
 /////////////////////////////////////////// Public folder setup ///////////////////////////////////////
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.resolve(__dirname, "./public")));
+app.use(express.static(path.resolve(__dirname, "./client/dist")));
 
 ///////////////////////////////////// Routers ///////////////////////////////////////////////////////////////////
 
@@ -61,7 +61,7 @@ app.use("/api/v1/users", authenticateUser, userRouter);
 // When users directly access paths (e.g., /profile, /dashboard), the server will still respond with index.html, which loads the SPA, and the front-end router will determine what content to display based on the URL.
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./public", "index.html"));
+  res.sendFile(path.resolve(__dirname, "./client/public", "index.html"));
 });
 
 //////////////////////////////////// Error middlewares //////////////////////////////////////////////////////////////
