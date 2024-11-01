@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { registerAction } from "./pages/Register";
 import { loginAction } from "./pages/Login";
@@ -12,6 +14,8 @@ import { jobsLoader } from "./pages/AllJobs";
 import { editJobLoader } from "./pages/EditJob";
 import { appStatsLoader } from "./pages/Admin";
 import { jobsStatsLoader } from "./pages/Stats";
+
+import ErrorElement from "./components/ErrorElement";
 
 import {
   AddJob,
@@ -38,6 +42,14 @@ export function checkDefaultTheme() {
 }
 
 /* const isDarkThemeEnabled = checkDefaultTheme(); */
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -72,6 +84,7 @@ const router = createBrowserRouter([
             path: "all-jobs",
             element: <AllJobs />,
             loader: jobsLoader,
+            errorElement: <ErrorElement />,
           },
           {
             path: "edit-job/:jobId",
@@ -84,7 +97,12 @@ const router = createBrowserRouter([
             element: <DeleteJob />,
             action: deleteJobAction,
           },
-          { path: "stats", element: <Stats />, loader: jobsStatsLoader },
+          {
+            path: "stats",
+            element: <Stats />,
+            loader: () => jobsStatsLoader(queryClient),
+            errorElement: <ErrorElement />,
+          },
           {
             path: "profile",
             element: <Profile />,
@@ -94,6 +112,7 @@ const router = createBrowserRouter([
             path: "admin",
             element: <Admin />,
             loader: appStatsLoader,
+            errorElement: <ErrorElement />,
           },
         ],
       },
@@ -102,6 +121,11 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
 };
 export default App;

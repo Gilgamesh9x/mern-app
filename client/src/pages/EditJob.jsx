@@ -51,7 +51,6 @@ export async function editJobLoader({ params }) {
     return data;
   } catch (error) {
     console.log(error);
-    toast.error("There is no such job");
     return redirect("/dashboard/all-jobs");
   }
 }

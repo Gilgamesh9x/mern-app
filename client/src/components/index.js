@@ -11,3 +11,4 @@ export { default as LogoutContainer } from "./LogoutContainer";
 export { default as StatsContainer } from "./StatsContainer";
 export { default as ChartsContainer } from "./ChartsContainer";
 export { default as SelectInput } from "./SelectInput";
+export { default as Loading } from "./Loading";

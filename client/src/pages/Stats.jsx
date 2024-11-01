@@ -1,9 +1,19 @@
 import { ChartsContainer, StatsContainer } from "../components";
+import { useQuery } from "@tanstack/react-query";
 import { useLoaderData } from "react-router-dom";
 import axios from "axios";
 
+const statsQuery = {
+  queryKey: ["stats"],
+  queryFn: async () => {
+    const { data } = await axios.get("/api/v1/jobs/jobs-stats");
+    return data;
+  },
+};
+
 const Stats = () => {
-  const { results, monthyAppsData } = useLoaderData();
+  const { data } = useQuery(statsQuery);
+  const { results, monthyAppsData } = data;
 
   return (
     <>
@@ -15,14 +25,10 @@ const Stats = () => {
 
 export default Stats;
 
-export async function jobsStatsLoader() {
-  try {
-    const { data } = await axios.get("/api/v1/jobs/jobs-stats");
-    return data;
-  } catch (error) {
-    console.log(error);
-    return toast.error(
-      error.response.data.message || "Something wrong happened"
-    );
-  }
+// using this, we're combining the loader functionality and tanstack
+// tanstack will cache data for us which is important and we can use it alone in the component, but we'll have to handle isLoading and isError in each page
+// if we use the loader and tanstack, the loader takes care of the error and loading functionality
+// so it's up to me what I wanna implement
+export async function jobsStatsLoader(queryClient) {
+  return await queryClient.ensureQueryData(statsQuery);
 }

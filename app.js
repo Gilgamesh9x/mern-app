@@ -12,6 +12,9 @@ import userRouter from "./src/routers/userRouter.js";
 import { errorHandlerMiddleware } from "./src/middleware/errorHandlerMiddleware.js";
 import { authenticateUser } from "./src/middleware/authMiddleware.js";
 
+import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
+
 // Public folder
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -31,9 +34,11 @@ const app = express();
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(helmet());
+app.use(mongoSanitize());
 ////////////////////////////////////////// Cloudinary /////////////////////////////////////////////
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,

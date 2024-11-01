@@ -27,13 +27,6 @@ export async function jobsLoader({ request }) {
     ...new URL(request.url).searchParams.entries(),
   ]);
   /* console.log(params); */
-  try {
-    const { data } = await axios.get("/api/v1/jobs", { params });
-    return { data, searchValues: { ...params } };
-  } catch (error) {
-    console.log(error);
-    return toast.error(
-      error.response.data.message || "Something wrong happened"
-    );
-  }
+  const { data } = await axios.get("/api/v1/jobs", { params });
+  return { data, searchValues: { ...params } };
 }

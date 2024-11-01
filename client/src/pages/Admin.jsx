@@ -31,11 +31,6 @@ const Admin = () => {
 export default Admin;
 
 export async function appStatsLoader() {
-  try {
-    const { data } = await axios.get("/api/v1/users/admin/app-stats");
-    return data; // return the user data
-  } catch (error) {
-    toast.error(error?.response.data.message || "You are not an admin");
-    return redirect("/dashboard");
-  }
+  const { data } = await axios.get("/api/v1/users/admin/app-stats");
+  return data; // return the user data
 }
