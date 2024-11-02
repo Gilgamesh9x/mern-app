@@ -1,5 +1,3 @@
-import * as dotenv from "dotenv";
-dotenv.config();
 import http from "http";
 import mongoConnect from "./src/services/mongo.js";
 import app from "./app.js";

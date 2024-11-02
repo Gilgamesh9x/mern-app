@@ -1,3 +1,5 @@
+import * as dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import morgan from "morgan";
 // parses cookies coming from requests so we can have access to them doing: req.cookies
@@ -34,10 +36,17 @@ const app = express();
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-
 app.use(express.json());
 app.use(cookieParser());
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+      // other directives...
+    },
+  })
+);
 app.use(mongoSanitize());
 ////////////////////////////////////////// Cloudinary /////////////////////////////////////////////
 cloudinary.config({
@@ -66,7 +75,7 @@ app.use("/api/v1/users", authenticateUser, userRouter);
 // When users directly access paths (e.g., /profile, /dashboard), the server will still respond with index.html, which loads the SPA, and the front-end router will determine what content to display based on the URL.
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./client/public", "index.html"));
+  res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
 });
 
 //////////////////////////////////// Error middlewares //////////////////////////////////////////////////////////////
