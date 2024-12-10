@@ -11,6 +11,7 @@ node_modules
 notes
 README.md
 dist
+keyPair
 dist-ssr
 *.local
 

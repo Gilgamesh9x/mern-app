@@ -13,7 +13,16 @@ const BigSidebar = () => {
       >
         <div className="content">
           <header>
-            <Logo />
+            {" "}
+            <h1
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: "bold",
+                color: "var(--primary-500)",
+              }}
+            >
+              MERN Jobs Tracker
+            </h1>
           </header>
           <NavLinks isBigSidebar />
         </div>

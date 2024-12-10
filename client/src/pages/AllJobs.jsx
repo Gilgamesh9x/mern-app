@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import { JobsContainer, SearchContainer } from "../components";
 import { useLoaderData } from "react-router-dom";
 import { useContext, createContext } from "react";

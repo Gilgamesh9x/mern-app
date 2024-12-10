@@ -14,7 +14,6 @@ const Navbar = () => {
           <FaAlignLeft />
         </button>
         <div>
-          <Logo />
           <h4 className="logo-text">dashboard</h4>
         </div>
 

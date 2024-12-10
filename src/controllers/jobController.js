@@ -101,7 +101,7 @@ export async function getUserJobsStats(req, res) {
   let stats = await Jobs.aggregate([
     // here, we'll be getting all the jobs created by the user who sent the request
     { $match: { createdBy: new mongoose.Types.ObjectId(userId) } },
-    // this will give us an object of that has the value of jobStatus in a property _id and counts the different values (how many values we have in each job status) and stores them in the object in a property "count"
+    // this will give us an object that has the value of jobStatus in a property _id and counts the different values (how many values we have in each job status) and stores them in the object in a property "count"
     // sum just means count
     { $group: { _id: "$jobStatus", count: { $sum: 1 } } },
   ]);

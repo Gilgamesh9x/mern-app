@@ -8,14 +8,17 @@ import rateLimiter from "express-rate-limit";
 
 const authRouter = Router();
 
-const apiLimiter = rateLimiter({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 6,
-  message: { message: "IP rate limit exceeded, retry in 15 minutes." },
-});
+// Function to create a customizable rate limiter
+function apiLimiter(max) {
+  return rateLimiter({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max, // Use the customizable max value
+    message: { message: "IP rate limit exceeded, retry in 15 minutes." },
+  });
+}
 
-authRouter.post("/register", apiLimiter, validateRegisterInput, register);
-authRouter.post("/login", apiLimiter, validateLoginInput, login);
+authRouter.post("/register", apiLimiter(5), validateRegisterInput, register);
+authRouter.post("/login", apiLimiter(6), validateLoginInput, login);
 authRouter.get("/logout", logout);
 
 export default authRouter;

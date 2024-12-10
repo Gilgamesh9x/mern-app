@@ -3,7 +3,6 @@ import User from "../models/userModel.js";
 import Job from "../models/jobModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import { formatImage } from "../middleware/multerMiddleware.js";
-import { format } from "morgan";
 
 export async function getCurrentUser(req, res) {
   const { userId } = req.user;

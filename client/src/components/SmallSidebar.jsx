@@ -14,7 +14,15 @@ const SmallSidebar = () => {
             <FaTimes />
           </button>
           <header>
-            <Logo />
+            <h1
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: "bold",
+                color: "var(--primary-500)",
+              }}
+            >
+              MERN Jobs Tracker
+            </h1>
           </header>
           <NavLinks />
         </div>

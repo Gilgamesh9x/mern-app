@@ -22,7 +22,17 @@ const Login = () => {
   return (
     <Wrapper>
       <Form method="post" className="form">
-        <Logo />
+        <h1
+          style={{
+            fontSize: "1.5rem",
+            fontWeight: "bold",
+            color: "var(--primary-500)",
+            textAlign: "center",
+            marginBottom: "10px",
+          }}
+        >
+          MERN Jobs Tracker
+        </h1>
         <h4>Login</h4>
         <FormRow id="email" type="email">
           Email

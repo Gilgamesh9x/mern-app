@@ -9,7 +9,17 @@ const Register = () => {
   return (
     <Wrapper>
       <Form method="post" className="form">
-        <Logo />
+        <h1
+          style={{
+            fontSize: "1.5rem",
+            fontWeight: "bold",
+            color: "var(--primary-500)",
+            textAlign: "center",
+            marginBottom: "10px",
+          }}
+        >
+          MERN Jobs Tracker
+        </h1>
         <h4>Register</h4>
         <FormRow id="name">Name</FormRow>
         <FormRow id="lastName">Last Name</FormRow>

@@ -26,9 +26,6 @@ import path from "path";
 
 import cloudinary from "cloudinary";
 
-///testing imports///
-import { BadRequestError } from "./src/errors/customErrors.js";
-
 const app = express();
 
 ////////////////////////////////////////// Middleware //////////////////////////////////////////
@@ -36,6 +33,7 @@ const app = express();
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -55,11 +53,6 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-/////////////////////////////////////////// Public folder setup ///////////////////////////////////////
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.resolve(__dirname, "./client/dist")));
-
 ///////////////////////////////////// Routers ///////////////////////////////////////////////////////////////////
 
 // Jobs router
@@ -70,6 +63,11 @@ app.use("/api/v1/auth", authRouter);
 
 // User router
 app.use("/api/v1/users", authenticateUser, userRouter);
+
+/////////////////////////////////////////// Public folder setup ///////////////////////////////////////
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, "./client/dist")));
 
 // It allows front-end routing (using libraries like React Router) to manage navigation within the app.
 // When users directly access paths (e.g., /profile, /dashboard), the server will still respond with index.html, which loads the SPA, and the front-end router will determine what content to display based on the URL.
